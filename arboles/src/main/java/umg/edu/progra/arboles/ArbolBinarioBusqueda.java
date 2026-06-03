@@ -206,6 +206,28 @@ public class ArbolBinarioBusqueda {
      */
     
     
+    // ============================================================
+    // PROBLEMAS 
+    // ============================================================
+
+    /**
+     * Problema 1: nodos usando recursividad
+     * sin usar tamanio
+     */
+    
+    public int contarNodos() {
+    	return contarNodosRecursivo(raiz);
+    }
+    
+    private int contarNodosRecursivo(Nodo nodo) {
+    	if (nodo == null) {
+    		return 0;
+    	}
+    	
+    	return 1 + contarNodosRecursivo(nodo.izquierdo) + contarNodosRecursivo(nodo.derecho);
+    }
+    
+    
     public void inOrden() {
         inOrdenRecursivo(raiz);
         System.out.println();
