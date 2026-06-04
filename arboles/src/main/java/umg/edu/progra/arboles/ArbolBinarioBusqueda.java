@@ -318,6 +318,29 @@ public class ArbolBinarioBusqueda {
     	return nodo;
     }
     
+    /**
+     * Problema 5: invierte el arbol (espejo) intercambiando izquierdo y derecho
+     */
+    
+    public void invertir() {
+    	invertirRecursivo(raiz);
+    }
+    
+    private void invertirRecursivo(Nodo nodo) {
+    	if (nodo == null) {
+    		return;
+    	}
+    	
+    	//guardamos la referencia izquierda temporalmente
+    	Nodo temporal = nodo.izquierdo;
+    	//intercambiamos
+    	nodo.izquierdo = nodo.derecho;
+    	nodo.derecho = temporal;
+    	
+    	//repetimos el proceso para los subarboles (que ya estan intercambiados)
+    	invertirRecursivo(nodo.izquierdo);
+    	invertirRecursivo(nodo.derecho);
+    }
     
     public void inOrden() {
         inOrdenRecursivo(raiz);
