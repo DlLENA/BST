@@ -286,6 +286,38 @@ public class ArbolBinarioBusqueda {
         		&& validarBSTRecursivo(nodo.derecho, nodo, max);
     }
     
+    /**
+     * Problema 4: encontrar el ancestro como el mas bajo (LCA) de dos valores
+     */
+    
+    public int ancestroComunMasBajo(int a, int b) {
+    	if (!contiene(a) || !contiene(b)) {
+    		throw new IllegalArgumentException("Uno o ambos valores no existen en el arbol");
+    	}
+    	
+    	return lcaRecursivo(raiz, a, b).dato;
+    }
+    
+    private Nodo lcaRecursivo(Nodo nodo, int a, int b) {
+    	if (nodo == null) {
+    		return null;
+    	}
+    	
+    	//si ambos valores son menores, el LCA esta en la izquierda
+    	if (nodo.dato > a && nodo.dato > b) {
+    		return lcaRecursivo(nodo.izquierdo, a, b);
+    	}
+    	
+    	//si ambos valores son mayores, el LCA esta en la derecha
+    	if (nodo.dato < a && nodo.dato < b) {
+    		return lcaRecursivo(nodo.derecho, a, b);
+    	}
+    	
+    	//el caso contrario (uno es mayor y otro menor, o es igual a uno de ellos), este nodo
+    	//es el punto donde se dividen o es uno de los nodos buscados
+    	return nodo;
+    }
+    
     
     public void inOrden() {
         inOrdenRecursivo(raiz);
