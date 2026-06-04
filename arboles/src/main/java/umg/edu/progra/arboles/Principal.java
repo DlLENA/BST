@@ -99,6 +99,41 @@ public class Principal {
         arbol.imprimirArbol();
         System.out.println("InOrden invertido (Descendente)");
         arbol.inOrden();
+        
+        
+        // ==========================================
+        // EJERCICIOS EXTRA (E1 - E4)
+        // ==========================================
+        System.out.println("\n--- Ejercicio Extra 1: K-esimo menor ---");
+        // En el arbol [10, 20, 30, 40, 50, 60, 70, 80], el 3er menor es 30.
+        System.out.println("El 3er valor mas pequeno es: " + arbol.kEsimoMenor(3));
+        
+        System.out.println("\n--- Ejercicio Extra 2: Imprimir Rango Ordenado ---");
+        System.out.print("Valores entre 25 y 65: ");
+        arbol.imprimirRangoOrdenado(25, 65); // Esperado: 30 40 50 60
+
+        System.out.println("\n--- Ejercicio Extra 3: Diametro del Arbol ---");
+        System.out.println("Diametro del arbol actual: " + arbol.diametro());
+
+        System.out.println("\n--- Ejercicio Extra 4: Arbol desde args (Consola) ---");
+        if (args.length > 0) {
+            ArbolBinarioBusqueda arbolArgs = new ArbolBinarioBusqueda();
+            System.out.print("Insertando valores de args: ");
+            for (int i = 0; i < args.length; i++) {
+                try {
+                    int valor = Integer.parseInt(args[i]);
+                    arbolArgs.insertar(valor);
+                    System.out.print(valor + " ");
+                } catch (NumberFormatException e) {
+                    System.out.println("[Ignorado: " + args[i] + "] ");
+                }
+            }
+            System.out.println("\n>> Arbol construido desde consola:");
+            arbolArgs.imprimirArbol();
+        } else {
+            System.out.println("No se enviaron argumentos por consola.");
+            System.out.println("Ejemplo de uso: java -cp target/classes umg.edu.progra.arboles.Principal 15 5 20 3 8");
+        }
 
 
         

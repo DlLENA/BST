@@ -346,6 +346,105 @@ public class ArbolBinarioBusqueda {
         inOrdenRecursivo(raiz);
         System.out.println();
     }
+    
+    //===============================================================
+    // EJERCICIOS EXTA 
+    //===============================================================
+    
+    /**
+     * E1: Devuelve el k-esimo valor mas pequeño del arbol
+     * @param nodo
+     */
+    public int kEsimoMenor(int k) {
+    	int[] contador = {0}; //arreglo de 1 posicion para simular paso por referencia
+    	Nodo resultado = kEsimoMenorRecursivo(raiz, k, contador);
+    	if (resultado == null) {
+    		throw new IllegalArgumentException("K esta fuera de los limites del arbol");
+    	}
+    	
+    	return resultado.dato;
+    }
+    
+    private Nodo kEsimoMenorRecursivo(Nodo nodo, int k, int[] contador) {
+    	if (nodo == null) {
+    		return null;
+    	}
+    	
+    	//buscar primero en la izquierda (valores mas pequeños)
+    	Nodo izquierdo = kEsimoMenorRecursivo(nodo.izquierdo, k, contador);
+    	if (izquierdo != null) {
+    		return izquierdo;
+    	}
+    	
+    	//procesar nodo actual 
+    	contador[0]++;
+    	if (contador[0] == k) {
+    		return nodo; //encontramos el k-esimo
+    	}
+    	
+    	//buscar en la derecha (valores mas grandes)
+    	return kEsimoMenorRecursivo(nodo.derecho, k, contador);
+    }
+    
+    /**
+     * E2: imprime en orden todos lso valores en el rango [min, max]
+     * @param nodo
+     */
+    public void imprimirRangoOrdenado(int min, int max) {
+    	imprimirRangoRecursivo(raiz, min, max);
+    	System.out.println();
+    }
+    
+    private void imprimirRangoRecursivo(Nodo nodo, int min, int max) {
+    	if (nodo == null) {
+    		return;
+    	}
+    	
+    	// Solo vamos a la izquierda si hay posibilidad de encontrar valores >= min
+        if (nodo.dato > min) {
+            imprimirRangoRecursivo(nodo.izquierdo, min, max);
+        }
+
+        // Si esta en el rango, lo imprimimos
+        if (nodo.dato >= min && nodo.dato <= max) {
+            System.out.print(nodo.dato + " ");
+        }
+
+        // Solo vamos a la derecha si hay posibilidad de encontrar valores <= max
+        if (nodo.dato < max) {
+            imprimirRangoRecursivo(nodo.derecho, min, max);
+        }
+    }
+    
+    /**
+     * E3: Devuelve el diametro del arbol (el camino mas largo en aristas entre dos nodos).
+     */
+    public int diametro() {
+        int[] maxDiametro = {0};
+        diametroRecursivo(raiz, maxDiametro);
+        return maxDiametro[0];
+    }
+
+    private int diametroRecursivo(Nodo nodo, int[] maxDiametro) {
+        if (nodo == null) {
+            return -1; // Usamos -1 porque asi lo defines en tu metodo de altura original
+        }
+
+        int alturaIzq = diametroRecursivo(nodo.izquierdo, maxDiametro);
+        int alturaDer = diametroRecursivo(nodo.derecho, maxDiametro);
+
+        // Las aristas hacia el hijo izquierdo son alturaIzq + 1
+        // Las aristas hacia el hijo derecho son alturaDer + 1
+        int aristasPorNodo = (alturaIzq + 1) + (alturaDer + 1);
+
+        // Actualizamos el diametro maximo si el actual es mayor
+        if (aristasPorNodo > maxDiametro[0]) {
+            maxDiametro[0] = aristasPorNodo;
+        }
+
+        // Retornamos la altura del nodo actual
+        return 1 + (alturaIzq > alturaDer ? alturaIzq : alturaDer);
+    }
 
     private void inOrdenRecursivo(Nodo nodo) {
         if (nodo == null) {
