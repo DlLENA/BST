@@ -13,6 +13,10 @@ package umg.edu.progra.arboles;
 public class Principal {
 
     public static void main(String[] args) {
+    	System.out.println("==================================================");
+    	System.out.println("   TAREA: ARBOL BINARIO DE BUSQUEDA (BST)");
+    	System.out.println("==================================================");
+
 
         ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda();
 
@@ -28,58 +32,77 @@ public class Principal {
          *        10
          */
         int[] valores = { 50, 30, 70, 20, 40, 60, 80, 10 };
-        for (int v : valores) {
-            arbol.insertar(v);
+        for (int i = 0; i < valores.length; i++) {
+            arbol.insertar(valores[i]);
         }
 
-        System.out.println("===== Arbol Binario de Busqueda =====");
-        System.out.println("Tamanio: " + arbol.tamanio());
-        System.out.println("Altura:  " + arbol.altura());
-        System.out.println("Minimo:  " + arbol.minimo());
-        System.out.println("Maximo:  " + arbol.maximo());
-        System.out.println("Hojas:   " + arbol.contarHojas());
-
-        System.out.println("\n--- Representacion visual (rotada 90 grados) ---");
+       //===============================================================
+       // PROBLEMA 1: Contar Nodos
+       //===============================================================
+        System.out.println("--- Problema 1: Contar Nodos ---");
+        System.out.println("Tamanio con metodo original: " + arbol.tamanio());
+        System.out.println("Nodos contados recursivamente:" + arbol.contarNodos());
+        System.out.println("¿Coinciden?" + (arbol.tamanio() == arbol.contarNodos()));
+        
+        //===============================================================
+        // PROBLEMA 2: Es Balanceado
+        //===============================================================
+        System.out.println("\n--- Problema 2: Arbol Balanceado ---");
+        System.out.println("¿El arbol principal esta balanceado?" + arbol.verificarBalanceado());
+        
+        //Prueba con arbol claramente desbalanceado 
+        ArbolBinarioBusqueda arbolMalo = new ArbolBinarioBusqueda();
+        int[] desbalanceados = {1, 2, 3, 4, 5};
+        for (int i = 0; i < desbalanceados.length; i++) {
+        	arbolMalo.insertar(desbalanceados[i]);		
+        }
+        System.out.println("¿El arbol [1,2,3,4,5] esta balanceado?" + arbolMalo.verificarBalanceado());
+        
+        //===============================================================
+        // PROBLEMAS 3: Validar BST
+        //===============================================================
+        System.out.println("\n--- Problema 3: Validar BST ---");
+        System.out.println("¿El arbol principal es un BST valido?" + arbol.verificarBalanceado());
+        
+        System.out.println("Rompiendo el arbol intencionalmente. . .");
+        //accedemos a la raiz (50) -> subarbol izquierdo (30) -> subarbol derecho (40) cambiamos ese 40 por un 99,
+        //lo cual rompe la regla porque 99 es mayor que la raiz (50)
+        Nodo nodo30 = arbol.getRaiz().getIzquierdo();
+        int valorOriginal = nodo30.getDerecho().leerDato();
+        nodo30.getDerecho().dato = 99; //rompemos la regla
+        
+        System.out.println("¿Es un BST valido despues de inyectar el 99?" + arbol.verificarBalanceado());
+        
+        //restaurmos el arbol para no afectar las pruebas siguientes 
+        nodo30.getDerecho().dato = valorOriginal;
+        System.out.println("Arbol restaurado. ¿Es BST valido de nuevo?" + arbol.verificarBalanceado());
+        
+        //===============================================================
+        // PROBLEMA 4: Ancestro Comun Mas Bajo (LCA)
+        //===============================================================
+        System.out.println("\n--- Problema 4: Ancestro Comun Mas Bajo (LCA) ---");
+        System.out.println("LCA de 10 y 40 (Esperando 30):" + arbol.ancestroComunMasBajo(10, 40));
+        System.out.println("LCA de 10 y 80 (Esperando 50):" + arbol.ancestroComunMasBajo(10, 80));
+        System.out.println("LCA de 60 y 80 (Esperando 70):" + arbol.ancestroComunMasBajo(10, 80));
+        
+        
+        //===============================================================
+        // PROBLEMA 5: Espejo del arbol (Inversion)
+        //===============================================================
+        System.out.println("\n--- Problema 5: Espejo del Arbol ---");
+        System.out.println(">> Arbol Original:");
         arbol.imprimirArbol();
-
-        System.out.println("\n--- Recorridos ---");
-        System.out.print("InOrden    (ascendente): ");
+        System.out.println("InOrden original (Ascendente): ");
         arbol.inOrden();
-
-        System.out.print("PreOrden   (raiz primero): ");
-        arbol.preOrden();
-
-        System.out.print("PostOrden  (raiz al final): ");
-        arbol.postOrden();
-
-        System.out.print("Por niveles (BFS):         ");
-        arbol.recorridoPorNiveles();
-
-        System.out.println("\n--- Busquedas ---");
-        System.out.println("Contiene 40? " + arbol.contiene(40));
-        System.out.println("Contiene 99? " + arbol.contiene(99));
-
-        System.out.println("\n--- Eliminacion ---");
-        System.out.println("Eliminando 20 (nodo con 1 hijo)...");
-        arbol.eliminar(20);
-        System.out.print("InOrden tras eliminar 20: ");
-        arbol.inOrden();
-
-        System.out.println("Eliminando 30 (nodo con 2 hijos)...");
-        arbol.eliminar(30);
-        System.out.print("InOrden tras eliminar 30: ");
-        arbol.inOrden();
-
-        System.out.println("Eliminando 50 (raiz)...");
-        arbol.eliminar(50);
-        System.out.print("InOrden tras eliminar la raiz: ");
-        arbol.inOrden();
-
-        System.out.println("\n--- Estado final ---");
+        
+        System.out.println("\n>> Invertiendo el arbol. . .");
         arbol.imprimirArbol();
-        System.out.println("Tamanio final: " + arbol.tamanio());
-        System.out.println("Altura final:  " + arbol.altura());
+        System.out.println("InOrden invertido (Descendente)");
+        arbol.inOrden();
 
+
+        
+        
         /*
          * Ejercicios
          *
