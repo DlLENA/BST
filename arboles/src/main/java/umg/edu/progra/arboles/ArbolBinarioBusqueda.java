@@ -256,6 +256,36 @@ public class ArbolBinarioBusqueda {
     	return -1 + (alturaIzq > alturaDer ? alturaIzq : alturaDer);
     }
     
+    /**
+     * Problema 3: validar que el arbol cumpla con la propiedad BST
+     */
+    
+    public boolean esBSTValido() {
+    	//pasamos un null para indicar de "sin limite" (infinito/menos infinito)
+    	return validarBSTRecursivo(raiz, null, null);
+    }
+    
+    private boolean validarBSTRecursivo(Nodo nodo, Nodo min, Nodo max) {
+    	if (nodo == null) {
+    		return true;
+    	}
+    	
+    	//si existe un limite minimo, el dato debe de ser mayor a el 
+        if (min != null && nodo.dato <= min.dato) {
+        	return false;
+        }
+        
+        //si existe un limite maximo, el dato debe de ser menor a el
+        if (max != null && nodo.dato >= max.dato) {
+        	return false;
+        }
+        
+        //el subarbol izquierdo tiene como limite maximo el nodo actual
+        //el subarbol derecho tiene como limite minimo el nodo actual
+        return validarBSTRecursivo(nodo.izquierdo, min, nodo)
+        		&& validarBSTRecursivo(nodo.derecho, nodo, max);
+    }
+    
     
     public void inOrden() {
         inOrdenRecursivo(raiz);
