@@ -227,6 +227,35 @@ public class ArbolBinarioBusqueda {
     	return 1 + contarNodosRecursivo(nodo.izquierdo) + contarNodosRecursivo(nodo.derecho);
     }
     
+    /**
+     * Problema 2: verificar si el arbol esta balanceado
+     * la diferencia entre el subarbol izquierdo y derecho tiene que ser <= 1
+     */
+    
+    public boolean verificarBalanceado() {
+    	return verificarBalance(raiz) != -1;
+    }
+    
+    private int verificarBalance(Nodo nodo) {
+    	if (nodo == null) {
+    		return 0; // la altura de un arbol nulo para poder calcular el balance
+    	}
+    	
+    	int alturaIzq = verificarBalance(nodo.izquierdo);
+    	if (alturaIzq == -1) return -1; //desbalance en el subarbol izquierdo
+    	
+    	int alturaDer = verificarBalance(nodo.derecho);
+    	if (alturaDer == -1) return -1; //desbalance en el subarbol derecho
+    	
+    	//calcular la diferencia absoluta 
+    	int diferencia = alturaIzq - alturaDer;
+    	if (diferencia > 1 || diferencia < -1) {
+    		return -1; //desbalance en el nodo actual
+    	}
+    	
+    	return -1 + (alturaIzq > alturaDer ? alturaIzq : alturaDer);
+    }
+    
     
     public void inOrden() {
         inOrdenRecursivo(raiz);
